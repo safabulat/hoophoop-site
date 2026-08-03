@@ -1,0 +1,228 @@
+/* Hoop Hoop — landing page.
+   Brand: the ball's own burnt orange over warm charcoal, taken straight out of the app's Skin struct
+   rather than picked again by eye. Dark first, light supported; both are real designs, not one
+   inverted. No framework, no build step, no external requests at all — the whole site is three HTML
+   files, this stylesheet and four images, so it drops on any host and works straight off a disk.
+   Structurally this is Deskick's stylesheet with one palette swapped; keeping the two siblings on the
+   same skeleton is deliberate, so a fix to one is a fix to both. */
+
+:root {
+    --hoop:      #e4763a;
+    --hoop-dim:  #c25c25;
+    --bg:        #12100e;
+    --bg-raise:  #1b1815;
+    --bg-sink:   #0b0a09;
+    --line:      #2b2621;
+    --ink:       #f3efec;
+    --ink-soft:  #a49a91;
+    --ink-faint: #71695f;
+    --radius:    14px;
+    --page:      1080px;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg:        #faf7f4;
+        --bg-raise:  #ffffff;
+        --bg-sink:   #efe9e3;
+        --line:      #e4dcd4;
+        --ink:       #17110c;
+        --ink-soft:  #5e544b;
+        --ink-faint: #8d8278;
+        --hoop:      #b4501a;
+        --hoop-dim:  #8c3c12;
+    }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--hoop); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: var(--page); margin: 0 auto; padding: 0 24px; }
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+header {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(160%) blur(12px);
+    z-index: 10;
+}
+header .wrap { display: flex; align-items: center; gap: 12px; }
+.wordmark { display: flex; align-items: center; gap: 10px; font-weight: 650; letter-spacing: -0.01em; color: var(--ink); }
+.wordmark:hover { text-decoration: none; }
+.wordmark img { width: 27px; height: 27px; border-radius: 7px; flex: none; }
+header nav { margin-left: auto; display: flex; gap: 22px; font-size: 14px; }
+header nav a { color: var(--ink-soft); }
+header nav a:hover { color: var(--ink); text-decoration: none; }
+
+/* ── hero ───────────────────────────────────────────────────────────────── */
+.hero { padding: 84px 0 20px; text-align: center; }
+.hero h1 {
+    margin: 0 auto 18px;
+    max-width: 16ch;
+    font-size: clamp(34px, 6.4vw, 62px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+}
+.hero h1 em { font-style: normal; color: var(--hoop); }
+.lede { margin: 0 auto; max-width: 55ch; font-size: clamp(16px, 2.1vw, 19px); color: var(--ink-soft); }
+
+.cta { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 13px 22px; border-radius: 11px;
+    font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+    border: 1px solid transparent;
+}
+.btn-primary { background: var(--hoop); color: #1a0b03; }
+.btn-primary:hover { background: var(--hoop-dim); text-decoration: none; }
+.btn-ghost { border-color: var(--line); color: var(--ink); background: var(--bg-raise); }
+.btn-ghost:hover { border-color: var(--ink-faint); text-decoration: none; }
+
+/* Not-yet-shipping state. Dimming the whole button was unreadable — this keeps full contrast and says
+   what it means instead. */
+.btn-soon {
+    background: color-mix(in srgb, var(--hoop) 14%, transparent);
+    border-color: color-mix(in srgb, var(--hoop) 45%, transparent);
+    color: var(--hoop);
+    pointer-events: none;
+}
+.btn-soon::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--hoop); flex: none;
+}
+.cta-note { margin-top: 14px; font-size: 13px; color: var(--ink-faint); }
+
+/* The shot is the whole screen, because the whole screen is the game. */
+.stage { margin: 46px auto 0; max-width: 1000px; }
+.shot {
+    width: 100%; height: auto; display: block;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 50px -20px rgba(0,0,0,.55);
+}
+
+/* ── the machine ────────────────────────────────────────────────────────── */
+/* A MacBook drawn in CSS rather than shipped as an image. These screenshots are of a whole desktop,
+   and a whole desktop floating in a plain rectangle reads as a wallpaper until there is a laptop
+   around it. Drawing it keeps the page's no-external-requests rule, costs no bytes, scales with the
+   image and needs no second asset for dark mode. The two dimensions that matter are set as custom
+   properties so the same markup works at hero size and at half width. */
+.mac { margin: 0 auto; --bezel: 13px; --radius-lid: 17px; }
+.mac-lid {
+    background: linear-gradient(#4a4b4f, #232427 42%, #1b1c1f);
+    padding: var(--bezel);
+    padding-bottom: calc(var(--bezel) * 1.45);
+    border-radius: var(--radius-lid) var(--radius-lid) 5px 5px;
+    box-shadow: 0 28px 56px -26px rgba(0,0,0,.62), inset 0 0 0 1px rgba(255,255,255,.10);
+}
+.mac-lid .shot { border: 0; box-shadow: none; border-radius: 3px; }
+/* The base is a little wider than the lid, which is most of what makes the silhouette read as a
+   laptop at a glance. Held to 4% so it can never push the page into a horizontal scroll. */
+.mac-base {
+    width: 104%; margin-left: -2%;
+    height: calc(var(--bezel) * 1.2);
+    /* Hard stops rather than a smooth blend: the top face catching the light, then the front edge
+       rolling away from it, is what gives the slab any thickness at this size. */
+    background: linear-gradient(#e4e7ea 0 16%, #bcc2c8 16% 52%, #8d9399 52%, #6d7379);
+    border-radius: 0 0 calc(var(--radius-lid) * 0.62) calc(var(--radius-lid) * 0.62);
+    box-shadow: 0 16px 26px -14px rgba(0,0,0,.5);
+    position: relative;
+}
+/* The thumb cutout on the front lip. */
+.mac-base::after {
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 13%; height: 44%;
+    background: rgba(0,0,0,.17);
+    border-radius: 0 0 7px 7px;
+}
+.feature .mac { --bezel: 8px; --radius-lid: 11px; }
+.stage figcaption { margin-top: 20px; font-size: 13px; color: var(--ink-faint); }
+figure { margin: 0; }
+
+/* ── sections ───────────────────────────────────────────────────────────── */
+section { padding: 76px 0; border-top: 1px solid var(--line); }
+.eyebrow {
+    margin: 0 0 12px; font-size: 11px; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--hoop);
+}
+h2 { margin: 0 0 14px; font-size: clamp(25px, 3.6vw, 34px); line-height: 1.15; letter-spacing: -0.028em; font-weight: 680; }
+h2 + p { margin: 0; max-width: 62ch; color: var(--ink-soft); font-size: 17px; }
+
+.feature { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+.feature .shot { max-width: 100%; }
+.feature-text p { color: var(--ink-soft); }
+
+/* ── lists ──────────────────────────────────────────────────────────────── */
+.points { margin: 34px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 44px; }
+.points h3 { margin: 0 0 5px; font-size: 16px; letter-spacing: -0.012em; }
+.points p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+/* A slice of the real menu bar rather than a tight crop around one icon: the point is that the toy
+   sits in the row you already have, next to everything else, so the row has to be visible. Trimmed on
+   the left, because the empty stretch out there was showing nothing, and centred so it sits over the
+   middle of the two columns beneath it rather than hanging off the left edge. */
+.menubar-shot {
+    display: block; width: 100%; max-width: 520px; height: auto; margin: 26px auto 0;
+    border-radius: 8px; border: 1px solid var(--line);
+}
+
+/* ── price ──────────────────────────────────────────────────────────────── */
+.price-card {
+    margin: 30px 0 0; padding: 30px 32px;
+    background: var(--bg-raise); border: 1px solid var(--line); border-radius: var(--radius);
+    max-width: 560px;
+}
+.price-tag { display: flex; align-items: baseline; gap: 10px; }
+.price-tag .amount { font-size: 42px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.price-tag .once { color: var(--ink-faint); font-size: 14px; }
+.price-card ul { margin: 20px 0 0; padding-left: 20px; }
+.price-card li { color: var(--ink-soft); font-size: 15px; margin: 6px 0; }
+
+kbd {
+    display: inline-block; padding: 1px 6px; margin: 0 1px;
+    border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px;
+    background: var(--bg-sink); font: 600 11.5px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--ink-soft);
+}
+
+details { padding: 18px 0; border-bottom: 1px solid var(--line); }
+details summary { cursor: pointer; font-weight: 600; font-size: 16.5px; letter-spacing: -0.012em; }
+details summary::marker { color: var(--hoop); }
+details p { margin: 10px 0 0; color: var(--ink-soft); }
+
+/* ── footer ─────────────────────────────────────────────────────────────── */
+footer { padding: 44px 0 60px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 14px; }
+footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+footer nav { margin-left: auto; display: flex; gap: 20px; }
+footer a { color: var(--ink-soft); }
+
+/* ── prose pages (privacy, support) ─────────────────────────────────────── */
+.prose { max-width: 66ch; padding: 62px 0 90px; }
+.prose h1 { font-size: clamp(28px, 4.4vw, 40px); letter-spacing: -0.03em; margin: 0 0 8px; }
+.prose .updated { margin: 0 0 34px; color: var(--ink-faint); font-size: 14px; }
+.prose h2 { font-size: 20px; margin: 38px 0 10px; }
+.prose p, .prose li { color: var(--ink-soft); }
+.prose strong { color: var(--ink); }
+.prose ul { padding-left: 20px; }
+
+@media (max-width: 760px) {
+    .feature, .points { grid-template-columns: 1fr; }
+    .feature { gap: 30px; }
+    section { padding: 56px 0; }
+    .hero { padding: 58px 0 16px; }
+    header nav { display: none; }
+}
