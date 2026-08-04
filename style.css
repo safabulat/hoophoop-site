@@ -3,7 +3,7 @@
    rather than picked again by eye. Dark first, light supported; both are real designs, not one
    inverted. No framework, no build step, no external requests at all — the whole site is three HTML
    files, this stylesheet and four images, so it drops on any host and works straight off a disk.
-   Structurally this is Deskick's stylesheet with one palette swapped; keeping the two siblings on the
+   Structurally this is Kick Kick's stylesheet with one palette swapped; keeping the two siblings on the
    same skeleton is deliberate, so a fix to one is a fix to both. */
 
 :root {
